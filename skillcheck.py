@@ -32,14 +32,19 @@ def chance_equal_larger(value, die, exploding=True):
     return 1 - chance_smaller(value, die, exploding)
 
 def savage_worlds_probabilities(die, wildcard=True):
-    ret = {}
+    '''return a dict with the probabilities for the individual result classes'''
     p_fumble = 1/die *(1/6 if wildcard else 1)
     p_fail = chance_smaller(4, die) * (chance_smaller(4, 6) if wildcard else 1) - p_fumble
     p_success = chance_in_range(4, 7, die)*(1 - wildcard*chance_equal_larger(8, 6)) + wildcard*chance_in_range(4, 7, 6)*chance_smaller(4, die)
     p_increment = chance_equal_larger(8, die) + wildcard*chance_equal_larger(8, 6)*chance_smaller(8, die)
 
-    return p_fumble+p_fail+p_success+p_increment
+    return {
+        'fumble':p_fumble,
+        'fail':p_fail,
+        'success':p_success,
+        'increment':p_increment
+    }
     
 
 if __name__ == '__main__':
-    print(savage_worlds_probabilities(4, True))
+    print(savage_worlds_probabilities(6, True))
