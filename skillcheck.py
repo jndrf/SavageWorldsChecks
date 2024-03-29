@@ -31,9 +31,15 @@ def chance_equal_larger(value, die, exploding=True):
     '''probability to roll as least value on a Ddie.'''
     return 1 - chance_smaller(value, die, exploding)
 
-if __name__ == '__main__':
-    print(chance_smaller(6, 4))
-    print(chance_equal_larger(6, 4))
-    print(chance_for_roll(1, 6))
-    print(chance_in_range(1, 4, 4, False))
+def savage_worlds_probabilities(die, wildcard=True):
+    ret = {}
+    p_fumble = 1/die *(1/6 if wildcard else 1)
+    p_fail = chance_smaller(4, die) * (chance_smaller(4, 6) if wildcard else 1) - p_fumble
+    p_success = chance_in_range(4, 7, die)*(1 - wildcard*chance_equal_larger(8, 6)) + wildcard*chance_in_range(4, 7, 6)*chance_smaller(4, die)
+    p_increment = chance_equal_larger(8, die) + wildcard*chance_equal_larger(8, 6)*chance_smaller(8, die)
+
+    return p_fumble+p_fail+p_success+p_increment
     
+
+if __name__ == '__main__':
+    print(savage_worlds_probabilities(4, True))
