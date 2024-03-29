@@ -8,8 +8,8 @@ def chance_for_roll(roll, die, exploding=True):
         )
     elif roll < die:
         return 1/die
-    elif roll == die:
-        return 0
+    elif roll == die and not exploding:
+        return 1/die
     elif roll > die and exploding:
         return 1/die * chance_for_roll(roll - die, die, exploding)
     else:
