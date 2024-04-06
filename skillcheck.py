@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import colormaps
 
+RESULT_CLASSES = ['fumble', 'fail', 'success', 'increment']
 
 def chance_for_roll(roll, die, exploding=True):
     '''calculate probability to obtain result roll with a single roll of a die-sided dice'''
@@ -72,8 +73,9 @@ if __name__ == '__main__':
 
     # cut the dummy values out of the plot
     ax.set_xlim(0.5, nbins+.5)
-    ax.set_xticks(range(1, nbins+1), results.keys())
+    ax.set_xticks(range(1, nbins+1), RESULT_CLASSES)
     ax.set_ylabel('Probability [%]')
+    ax.set_ylim(0, 100)
     ax.legend()
 
     plt.show()
