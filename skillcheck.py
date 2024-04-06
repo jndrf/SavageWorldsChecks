@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import colormaps
 
-RESULT_CLASSES = ['fumble', 'fail', 'success', 'increment']
+RESULT_CLASSES = ['Patzer', 'Fehlschlag', 'Erfolg', 'Steigerung']
 
 def chance_for_roll(roll, die, exploding=True):
     '''calculate probability to obtain result roll with a single roll of a die-sided dice'''
@@ -84,7 +84,7 @@ def make_plot(dice, wildcard):
         values = list(results.values())
         new_values = [values[0]] + values + [values[-1]]
         new_values = [100*v for v in new_values] # percent look nicer on the plot
-        ax.step(range(nbins+2), new_values, where='mid', label=f'D{die} (Wildcard)')
+        ax.step(range(nbins+2), new_values, where='mid', label=f'W{die} (Wildcard)')
 
     # cut the dummy values out of the plot
     ax.set_xlim(0.5, nbins+.5)
@@ -99,5 +99,5 @@ def make_plot(dice, wildcard):
 if __name__ == '__main__':
 
     fig, ax = make_plot([4, 6, 8, 10, 12], True)
-
-    plt.show()
+    fig.suptitle('Ergebniswahrscheinlichkeiten bei Savage Worlds')
+    fig.savefig('plot.png')
