@@ -67,10 +67,13 @@ if __name__ == '__main__':
         # repeat first and last values so that the graph extends beyond the ticks
         values = list(results.values())
         new_values = [values[0]] + values + [values[-1]]
+        new_values = [100*v for v in new_values] # percent look nicer on the plot
         ax.step(range(nbins+2), new_values, where='mid', label=f'D{die} (Wildcard)')
 
     # cut the dummy values out of the plot
     ax.set_xlim(0.5, nbins+.5)
     ax.set_xticks(range(1, nbins+1), results.keys())
+    ax.set_ylabel('Probability [%]')
+    ax.legend()
 
     plt.show()
