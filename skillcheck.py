@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import matplotlib.pyplot as plt
+from matplotlib import colormaps
 
 
 def chance_for_roll(roll, die, exploding=True):
@@ -56,10 +57,20 @@ def savage_worlds_probabilities(die, wildcard=True):
 if __name__ == '__main__':
 
     fig, ax = plt.subplots()
-    results = savage_worlds_probabilities(6)
 
-    nbins = len(results)
-    ax.step(range(nbins), results.values(), where='mid')
-    ax.set_xticks(range(nbins), results.keys())
+    dice = [4, 6, 8, 10, 12]
+    
+    for die in dice:
+        results = savage_worlds_probabilities(die)
+        nbins = len(results)
+
+        # repeat first and last values so that the graph extends beyond the ticks
+        values = list(results.values())
+        new_values = [values[0]] + values + [values[-1]]
+        ax.step(range(nbins+2), new_values, where='mid', label=f'D{die} (Wildcard)')
+
+    # cut the dummy values out of the plot
+    ax.set_xlim(0.5, nbins+.5)
+    ax.set_xticks(range(1, nbins+1), results.keys())
 
     plt.show()
