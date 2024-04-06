@@ -58,7 +58,8 @@ if __name__ == '__main__':
     fig, ax = plt.subplots()
     results = savage_worlds_probabilities(6)
 
-    ax.bar(len(results), results.values(), width=1)
-    # ax.xticks(xticks=results.keys())
+    nbins = len(results)
+    ax.step(range(nbins), results.values(), where='mid')
+    ax.set_xticks(range(nbins), results.keys())
 
     plt.show()
