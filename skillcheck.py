@@ -55,15 +55,30 @@ def savage_worlds_probabilities(die, wildcard=True):
     }
 
 
-if __name__ == '__main__':
+def make_plot(dice, wildcard):
+    '''
+    create overlay plot of probabilities for different dice
 
+    Creates a plot showing the different probabilities to roll a certain result class.
+
+    dice: integer or list of integers. The number of faces on the dies.
+    wildcard: bool or list of bools. Whether a wildcard die should be rolled in addition to
+        the die. If this is a bool and dice is a list, the same choice is used for all dice.
+
+    returns: the Figure and Axes objects from plt.subplots.
+
+    '''
     fig, ax = plt.subplots()
 
-    dice = [4, 6, 8, 10, 12]
-    
+    if type(dice) == int:
+        dice = [dice]
+
+    if type(wildcard == bool):
+        wildcard = [wildcard]*len(dice)
+
     for die in dice:
         results = savage_worlds_probabilities(die)
-        nbins = len(results)
+        nbins = len(RESULT_CLASSES)
 
         # repeat first and last values so that the graph extends beyond the ticks
         values = list(results.values())
@@ -77,5 +92,12 @@ if __name__ == '__main__':
     ax.set_ylabel('Probability [%]')
     ax.set_ylim(0, 100)
     ax.legend()
+
+    return fig, ax
+
+
+if __name__ == '__main__':
+
+    fig, ax = make_plot([4, 6, 8, 10, 12], True)
 
     plt.show()
