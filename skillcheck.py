@@ -73,23 +73,24 @@ def make_plot(dice, wildcard):
     if type(dice) == int:
         dice = [dice]
 
-    if type(wildcard == bool):
+    if type(wildcard) == bool:
         wildcard = [wildcard]*len(dice)
 
-    for die in dice:
-        results = savage_worlds_probabilities(die)
+    for die, wc in zip(dice, wildcard):
+        results = savage_worlds_probabilities(die, wc)
         nbins = len(RESULT_CLASSES)
 
         # repeat first and last values so that the graph extends beyond the ticks
         values = list(results.values())
         new_values = [values[0]] + values + [values[-1]]
-        new_values = [100*v for v in new_values] # percent look nicer on the plot
-        ax.step(range(nbins+2), new_values, where='mid', label=f'W{die} (Wildcard)')
+        new_values = [100*v for v in new_values]  # percent look nicer on the plot
+        label = f'W{die} (Wildcard)' if wc else f'W{die}'
+        ax.step(range(nbins+2), new_values, where='mid', label=label)
 
     # cut the dummy values out of the plot
     ax.set_xlim(0.5, nbins+.5)
     ax.set_xticks(range(1, nbins+1), RESULT_CLASSES)
-    ax.set_ylabel('Probability [%]')
+    ax.set_ylabel('Wahrscheinlichkeit [%]')
     ax.set_ylim(0, 100)
     ax.legend()
 
