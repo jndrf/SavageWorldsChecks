@@ -101,4 +101,13 @@ if __name__ == '__main__':
 
     fig, ax = make_plot([4, 6, 8, 10, 12], True)
     fig.suptitle('Ergebniswahrscheinlichkeiten bei Savage Worlds')
-    fig.savefig('plot.png')
+    fig.savefig('all_dice_wildcard.png')
+
+    fig, ax = make_plot([4, 6, 8, 10, 12], False)
+    fig.suptitle('Ergebniswahrscheinlichkeiten bei Savage Worlds')
+    fig.savefig('all_dice_no_wildcard.png')
+
+    for die in [4, 6, 8, 10, 12]:
+        fig, ax = make_plot([die, die], [True, False])
+        fig.suptitle('Ergebniswahrscheinlichkeiten bei Savage Worlds')
+        fig.savefig(f'd{die}.png')
